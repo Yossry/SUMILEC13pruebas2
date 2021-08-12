@@ -1,0 +1,17 @@
+<odoo>
+  <data>
+    <record id="view_created_customer_form" model="ir.ui.view">
+        <field name="name">view.created.customer.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <field name="category_id" position="after">
+                 <field name="create_date"/>
+                 <field name="create_uid"/>
+                 <field name="write_date"/>
+                 <field name="write_uid"/>
+            </field>
+        </field>
+    </record>
+  </data>
+</odoo>

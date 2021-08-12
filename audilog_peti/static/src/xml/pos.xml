@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="pos_customer_template_peti" inherit_id="point_of_sale.template" xml:space="preserve">
+    <t t-extend="ClientDetailsEdit">
+
+        <t t-jquery="div.client-details-right" t-operation="after">
+            <div class='client-detail'>
+                <span class='label'>Creado</span>
+                <input  name='create_date' type='text' disabled="true"
+                       t-att-value='partner.create_date || ""'/>
+                <span class='label'>Creado por</span>
+                <select  name='create_uid'  disabled="true">
+                        <option value=''>System</option>
+                    <t t-foreach='widget.pos.users_create' t-as='user'>
+                            <option t-att-value='user.id'
+                                    t-att-selected="partner.create_uid ? ((user.id === partner.create_uid[0]) ? true : undefined) : undefined">
+                                <t t-esc='user.name'/>
+                            </option>
+                        </t>
+                    </select>
+
+                <span class='label'>Actualizado</span>
+                <input  name='write_date' type='text' disabled="true"
+                       t-att-value='partner.write_date || ""'/>
+                <span class='label'>Actualizado por</span>
+                <select  name='write_uid' disabled="true">
+                    <option value=''>System</option>
+                    <t t-foreach='widget.pos.users_create' t-as='user'>
+                        <option t-att-value='user.id'
+                                t-att-selected="partner.write_uid ? ((user.id === partner.write_uid[0]) ? true : undefined) : undefined">
+                            <t t-esc='user.name'/>
+                        </option>
+                    </t>
+                    </select>
+            </div>
+        </t>
+    </t>
+</templates>

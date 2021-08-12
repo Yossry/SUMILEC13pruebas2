@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <template id="dian_assets_frontend" inherit_id="web.assets_frontend">
+            <xpath expr="." position="inside"> 
+                <link rel="stylesheet" href="/l10n_co_res_partner/static/src/css/frontend.css"/> 
+                <script type="text/javascript" src="/l10n_co_res_partner/static/src/js/frontend.js"></script>
+            </xpath>
+        </template>
+
+        <template id="dian_address_b2b" inherit_id="website_sale.address_b2b">
+                <xpath expr="//input[@name='vat']" position="replace">
+                    <t>
+                        <input type="checkbox" t-att-value="'is_company' in checkout and checkout['is_company']" name="is_company" class="form-control website-is_company hidden-element"></input>
+                        <input type="hidden"  name="partner_id"  class="form-control website-partner_id" readonly="1" t-att-value="partner_id" ></input>                
+                        <select  name="l10n_co_document_type" id="l10n_co_document_type" t-attf-class="form-control #{error.get('l10n_co_document_type') and 'is-invalid' or ''}" t-att-readonly="'1' if 'vat' in checkout and checkout['vat'] and not can_edit_vat else None">
+                            <option value=""  >Tipo de documento</option>
+                            <option t-att-value="'rut'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'rut'">NIT (Número de identificación tributaria)</option>
+                            <option t-att-value="'id_document'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'id_document'">Cedula de ciudadania </option>
+                            <option t-att-value="'id_card'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'id_card'">Tarjeta de identidad</option>
+                            <option t-att-value="'passport'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'passport'">Pasaporte</option>
+                            <option t-att-value="'foreign_id_card'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'foreign_id_card'">Cedula de extranjeria</option>
+                            <!--<option t-att-value="'external_ID'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'external_ID'">ID del Exterior</option>
+                            <option t-att-value="'diplomatic_card'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'diplomatic_card'">Carné Diplomatico</option>
+                            <option t-att-value="'residence_document'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'residence_document'">Salvo Conducto de permanencia</option>-->
+                            <option t-att-value="'civil_registration'"  t-att-selected="'l10n_co_document_type' in checkout and checkout['l10n_co_document_type'] == 'civil_registration'">Registro Civil</option>
+                        </select>
+                        <select  name="vat_type" id="vat_type" t-attf-class="form-control hidden-element #{error.get('vat_type') and 'is-invalid' or ''}">
+                            <option value=""  >Tipo de documento</option>
+                            <option t-att-value="'11'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '11'">11 - Registro Civil</option>
+                            <option t-att-value="'12'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '12'">12 - Tarjeta de identidad </option>
+                            <option t-att-value="'13'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '13'">13 - Cédula de ciudadanía</option>
+                            <option t-att-value="'21'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '21'">21 - Tarjeta de extranjería</option>
+                            <option t-att-value="'22'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '22'">22 - Cédula de extranjería</option>
+                            <option t-att-value="'31'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '31'">31 - NIT (Número de identificación tributaria)</option>
+                            <option t-att-value="'41'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '41'">41 - Pasaporte</option>
+                            <option t-att-value="'42'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '42'">42 - Documento de identificación extranjero</option>
+                            <option t-att-value="'43'"  t-att-selected="'vat_type' in checkout and checkout['vat_type'] == '43'">43 - Sin identificación del exterior o para uso definido por la DIAN</option>
+                        </select>
+                    </t>
+                     <t>
+                        <div>
+                            <input type="text" name="vat" class="form-control hidden-element" t-att-value="'vat_num' in checkout and checkout['vat_num']"></input>
+                        </div>
+                         <div>
+                            <table width="100%">
+                                <tr>
+                                    <td width="70%">
+                                        <input type="text" name="vat_num" placeholder="24645765" class="form-control website-xidentification" t-att-value="'vat_num' in checkout and checkout['vat_num']" ></input>
+                                    </td>
+                                    <td width="73%">
+                                        <input type="text" placeholder="Para N.I.T" name="vat_vd"  class="form-control website-verificationDigit" readonly="1" t-att-value="'vat_vd' in checkout and checkout['vat_vd']" ></input>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </div>
+                    </t>
+                </xpath>
+            <!--<xpath expr="//form[@class='checkout_autoformat']//div//">
+
+            </xpath>-->
+                <xpath expr="//form[@class='checkout_autoformat']//div" position="before">
+                     <div class="form-row">
+                         <select  name="company_type" id="company_type" t-attf-class="form-control my-2 #{error.get('company_type') and 'is-invalid' or ''}">
+                            <option t-att-value="'person'"  t-att-selected="'company_type' in checkout and checkout['company_type'] == 'person'">Individual</option>
+                            <option t-att-value="'company'"  t-att-selected="'company_type' in checkout and checkout['company_type'] == 'company'">Compañia</option>
+                        </select>
+                            <!--<input type="text"  name="name"  class="form-control website-name hidden-element" readonly="1" t-att-value="'name' in checkout and checkout['name']" ></input>-->
+                            <!--<input type="text"  name="companyBrandName"  class="form-control website-name hidden-element" readonly="1" t-att-value="'company_name' in checkout and checkout['company_name']" ></input>-->
+                            <table class="form-full-width block-names">
+                                <tr>
+                                    <td>
+                                        <input t-att-value="'firstname' in checkout and checkout['firstname']" type="text" name="firstname" placeholder="Primer Nombre" class="form-control website-firstname"/>
+                                    </td>
+                                    <td>
+                                        <input t-att-value="'other_name' in checkout and checkout['other_name']" type="text" name="other_name" placeholder="Segundo Nombre" class="form-control website-x_name2"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <input t-att-value="'lastname' in checkout and checkout['lastname']" type="text" name="lastname" placeholder="Primer Apellido" class="form-control website-x_lastname1"/>
+                                    </td>
+                                    <td>
+                                        <input t-att-value="'other_lastname' in checkout and checkout['other_lastname']" type="text" name="other_lastname" placeholder="Segundo Apellido" t-attf-class="form-control #{error.get('other_lastname') and 'is-invalid' or ''}"/>
+                                    </td>
+                                </tr>
+                            </table>                        
+                    </div>
+                </xpath>
+                 <xpath expr="//form[@class='checkout_autoformat']/div[@class='form-row']/div[12]" position="after">
+                    <t> 
+                        <div class="div_district form-group  col-lg-6">
+                            <label class="col-form-label" for="city_id">Municipio</label>
+                                <select name="city_id" class="form-control ">
+
+                                </select>     
+                        </div>  
+                         <div class="div_zip_custom form-group  col-lg-6" style="max-width:200px">
+                                <label class="col-form-label label-optional" for="zip">Zip Code</label>
+                                <input type="text" name="zip" t-attf-class="form-control #{error.get('zip') and 'is-invalid' or ''}" t-att-value="'zip' in checkout and checkout['zip']" style="max-width:200px"/>
+                        </div> 
+                    </t>
+                </xpath>            
+        </template>                        
+    </data>
+</odoo>

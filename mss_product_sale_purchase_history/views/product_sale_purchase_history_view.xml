@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+
+    <!-- Product Template View -->
+    <record id="mss_product_template_sale_purchase_history" model="ir.ui.view">
+        <field name="name">product.template.form.inherit</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="cost" string="Historial de ventas">
+                    <field name="sale_line_ids" readonly="1"/>
+                </page>
+                <page name="cost" string="Historial de compras">
+                    <field name="purchase_line_ids" readonly="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <!-- Product Product View -->
+    <record id="mss_product_product_sale_purchase_history" model="ir.ui.view">
+        <field name="name">product.product.form</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page name="cost" string="Historial de ventas">
+                    <field name="sale_line_ids" readonly="1"/>
+                </page>
+                <page name="cost" string="Historial de compras">
+                    <field name="purchase_line_ids" readonly="1"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <!-- Inherit Sale Form View to Modify it -->
+    <record id="mss_sale_order_form_inherit" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']"
+                   position="after">
+                <field name="product_tmpl_id" invisible="1"></field>
+            </xpath>
+        </field>
+    </record>
+    <!-- Inherit Purchase Form View to Modify it -->
+    <record id="mss_purchase_order_form_inherit" model="ir.ui.view">
+        <field name="name">purchase.order.form.inherit</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook/page/field[@name='order_line']/tree/field[@name='product_id']"
+                   position="after">
+                <field name="product_tmpl_id" invisible="1"></field>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>
